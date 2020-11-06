@@ -1,29 +1,60 @@
 
 import React from 'react'
+import Form from './Form'
+import PokeSearch from './PokeSearch'
 
 class App extends React.Component {
   
   constructor(props){
     super(props);
+
+    this.state = {
+      pokemonName : "",
+      pokemonStats: ""
+    }
   }
+
+
+  handleNameInsertion = (event) => {
+    event.preventDefault();
+    this.setState({pokemonName: event.target.value})
+  }
+
+  handleSearch = (event) => {
+    event.preventDefault()     
+    let data = fetch('https://pokeapi.co/api/v2/pokemon/ditto')
+      .then(poke => poke.json())
+      .then(poke => JSON.stringify(poke))
+      .catch(err => {return err})
+    this.setState({pokemonStats: data})
+    }
 
   render() {    
   return (
-    <div className="App">
-      <header className="App-header">
-        <h2>Pokemon Searcher</h2>
-        <form>
-            <label for="poke">Pokemon Name: </label>
-            <input type="text" name="pokemon" placeholder="works?"></input>
-            <input type="submit" name="submit" value="Submit"/>
-          </form>
+    <div>      
+      <header>
+      <h2>Pokemon Searcher</h2>             
       </header>
-      <PokeSearch item={this.state.TodoItem} deleteEvent={this.deleteItem} updateItem={this.updateItem}/>
+        <Form onNameInsertion={this.handleNameInsertion} 
+              onSearch={this.handleSearch}/>
+        <PokeSearch fetchData={this.state.pokemonStats}/>
     </div>
-    
     
   );
 }
 }
 
 export default App;
+
+
+
+
+
+/*
+
+<ToDoList toDoItems={this.state.toDoItems} 
+                  onDelete={this.handleDelete}
+                  onUpdate={this.handleItemInputChange}
+                  onItemUpdate={this.handleUpdate}
+
+*/
