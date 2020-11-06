@@ -18,7 +18,9 @@ class App extends React.Component {
             <input type="submit" name="submit" value="Submit"/>
           </form>
       </header>
+      <PokeSearch item={this.state.TodoItem} deleteEvent={this.deleteItem} updateItem={this.updateItem}/>
     </div>
+    
     
   );
 }
